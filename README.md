@@ -4,15 +4,16 @@
 2. [Algorithm](README.md#algorithm)
 
 # Introduction
-DDoS attacks are extremely harmful and difficult to mitigate. Thus, it is helpful to have a tool that can detect these type of attacks in real time and aids in maintaining availability during attacks.
-MonitorDP is a distributed data pipeline that applies a simple algorithm to detect DDoS attacks in realtime.
-Requests are sent to a Kafka cluster, these requests are consumed by Flink, and the results of the processing are persisted to a Cassandra DB and monitoring messages are sent to a monitor Kafka topic.
+DDoS attacks are extremely harmful to web services and businesses. In addition, they are difficult to mitigate when they occur. Thus, it is helpful to have a tool that can detect and identify the source of the attacks in real time and can assist in maintaining availability during attacks.
+MonitorDP is a distributed data pipeline that applies a simple algorithm to detect DDoS attacks and record identities of malicious requests making up the attack in real-time.
 
+Requests are sent to a Kafka cluster, these requests are consumed by Flink, and the results of the processing are persisted to a Cassandra DB and monitoring messages are sent to a monitor Kafka topic. 
 Incoming data is processed with Flink 1.4 using the Java API.
 Kafkaconsumer.java is the source code for the Flink job that reads messages from a Kafka topic, applies the simple detection
 algorithm and sends an attack message to a different Kafka topic (i.e ddos-topic) when an ddos attack is detected.
 Additionally, when the attack flag is set a second Kafka cluster is used to receive all requests that have been marked as
 "good" by the Flink job.
+
 # Algorithm
 
 - For every incoming request, 
